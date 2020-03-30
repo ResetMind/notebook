@@ -11,12 +11,7 @@ from werkzeug.urls import url_parse
 @login_required
 def index():
     user = User.query.filter_by(username=current_user.username).first_or_404()
-    all_notes = []
-    notes = user.notes.all()
-    for n in notes:
-        all_notes.append({'id': n.id, 'header': n.header, 'body': n.body})
-    print(all_notes)
-    return render_template('index.html', title='Home', notes=notes)
+    return render_template('index.html', title='Home', notes=push_notes(user))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -68,11 +63,8 @@ def note(username):
         db.session.add(n)
         db.session.commit()
         flash('Saved')
-        all_notes = []
-        notes = user.notes.all()
-        for n in notes:
-            all_notes.append({'id': n.id, 'header': n.header, 'body': n.body})
-        return render_template('index.html', title='Home', notes=notes)
+        render_template('index.html', title='Home', notes=push_notes(user))
+        return redirect(url_for('index'))
     return render_template('note.html', form=form)
 
 
@@ -83,16 +75,33 @@ def note_edit(username, id):
     if user != current_user:
         return redirect(url_for('index'))
     note = Note.query.filter_by(id=id, author=user).first_or_404()
-    print(note)
     form = NoteForm(header=note.header, body=note.body)
     if form.validate_on_submit():
         note.header = form.header.data
         note.body = form.body.data
         db.session.commit()
         flash('Saved')
-        all_notes = []
-        notes = user.notes.all()
-        for n in notes:
-            all_notes.append({'id': n.id, 'header': n.header, 'body': n.body})
-        return render_template('index.html', title='Home', notes=notes)
+        render_template('index.html', title='Home', notes=push_notes(user))
+        return redirect(url_for('index'))
     return render_template('note.html', form=form)
+
+
+@app.route('/user/<username>/delete/<id>', methods=['GET', 'POST'])
+@login_required
+def note_delete(username, id):
+    user = User.query.filter_by(username=username).first_or_404()
+    if user != current_user:
+        return redirect(url_for('index'))
+    Note.query.filter_by(id=id, author=user).delete()
+    db.session.commit()
+    flash('Deleted')
+    render_template('index.html', title='Home', notes=push_notes(user))
+    return redirect(url_for('index'))
+
+
+def push_notes(user):
+    all_notes = []
+    notes = user.notes.all()
+    for n in notes:
+        all_notes.append({'id': n.id, 'header': n.header, 'body': n.body})
+    return all_notes
