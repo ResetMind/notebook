@@ -2,9 +2,12 @@
 
 {% block content %}
     <h1>{{ current_user.username }}</h1>
-    {% for note in notes %}
-    <div><p>{{ note.id }} {{ note.header }} <b>{{ note.body }}</b>
-        <a href="{{ url_for('note_edit', username=current_user.username, id=note.id) }}">Edit</a>
-        <a href="{{ url_for('note_delete', username=current_user.username, id=note.id) }}">Delete</a></p></div>
-    {% endfor %}
+    <div class="note_blocks" data-masonry='{ "itemSelector": ".note_block" }'>
+        {% for note in notes %}
+            <div class="note_block"><p><b>{{ note.header }}</b></p> <p>{{ note.body }}</p>
+                <p><a href="{{ url_for('note_edit', username=current_user.username, id=note.id) }}">Edit</a>
+                <a href="{{ url_for('note_delete', username=current_user.username, id=note.id) }}">Delete</a></p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

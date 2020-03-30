@@ -5,8 +5,7 @@
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="header">
-    <h3>Notebook</h3>
+<header>
     <a href="{{ url_for('index') }}">Home</a>
     {% if current_user.is_anonymous %}
         <a href="{{ url_for('login') }}">Login</a>
@@ -14,7 +13,9 @@
         <a href="{{ url_for('note', username=current_user.username) }}">Note</a>
         <a href="{{ url_for('logout') }}">Logout</a>
     {% endif %}
-</div>
+    <span>Notebook</span>
+    <div style="clear: right;">
+</header>
 <hr>
 <div class="content">
     {% with messages = get_flashed_messages() %}
@@ -29,4 +30,5 @@
     {% block content %}{% endblock %}
 </div>
 </body>
+<script src={{ url_for('static', filename='js/masonry.pkgd.js') }}></script>
 </html>

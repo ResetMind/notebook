@@ -4,11 +4,52 @@ body {
     font-family: 'Alegreya Sans', sans-serif, "Lucida Sans Unicode";
     text-align: justify;
 }
-.header {
 
+header {
+    font-size: 20px;
+}
+
+header span {
+    float: right;
 }
 
 ::selection {
     color: #1f1f1f;
     background: #f4f8f9;
+}
+
+a {
+    color: #bec4c6;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #f4f8f9;
+    text-decoration: none;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #f4f8f9;
+    opacity: 0.5;
+}
+
+.note_blocks {
+    /*display: inline-block;*/
+}
+
+.note_block p {
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.note_block {
+    float: left;
+    height: max-content;
+    width: 200px;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 10px;
+    margin: 5px;
 }
