@@ -21,15 +21,14 @@
 <div class="content">
     {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
         {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
 </div>
 </body>
 <script src={{ url_for('static', filename='js/masonry.pkgd.js') }}></script>
+<script src={{ url_for('static', filename='js/js.js') }}></script>
 </html>

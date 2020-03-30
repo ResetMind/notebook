@@ -40,6 +40,7 @@ hr {
     opacity: 0.5;
 }
 
+/*notes*/
 .note_blocks {
     margin:0 auto;
 }
@@ -56,5 +57,39 @@ hr {
     padding: 10px;
     border: 1px solid;
     border-radius: 10px;
+    background: #1f1f1f;
+    color: #f4f8f9;
     margin: 5px;
+}
+
+/*edit/make note*/
+input[type="text"], input[type="password"], textarea {
+    background: #1f1f1f;
+    border: 1px solid rgba(244, 248, 249, 0.5); /*#f4f8f9*/
+    border-radius: 5px;
+    color: #f4f8f9;
+    font-size: 16px;
+    padding: 5px;
+    outline: none;
+    font-family: 'Alegreya Sans', sans-serif, "Lucida Sans Unicode";
+    width: 100%;
+}
+
+textarea {
+    resize: none;
+}
+
+p span {
+    color: red;
+}
+
+.error_margin {
+    line-height: 0.1em;
+}
+
+/*login, registration*/
+.login_page input[type="text"],
+.register_page input[type="text"],
+input[type="password"] {
+    width: 200px;
 }

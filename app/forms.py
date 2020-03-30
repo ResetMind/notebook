@@ -31,6 +31,6 @@ class RegistrationForm(FlaskForm):
 
 
 class NoteForm(FlaskForm):
-    header = StringField('Header', validators=[DataRequired()])
-    body = TextAreaField('Body', validators=[DataRequired()])
+    header = StringField('Header', validators=[DataRequired()], render_kw={"placeholder": "Type note's header"})
+    body = TextAreaField('Body', validators=[DataRequired()], render_kw={"placeholder": "Type note"})
     submit = SubmitField('Save')
