@@ -5,6 +5,11 @@ body {
     text-align: justify;
 }
 
+.content {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
 header {
     font-size: 20px;
 }
@@ -36,7 +41,7 @@ hr {
 }
 
 .note_blocks {
-    /*display: inline-block;*/
+    margin:0 auto;
 }
 
 .note_block p {
