@@ -80,7 +80,9 @@ def note(username):
 @login_required
 def note_edit(username, id):
     user = User.query.filter_by(username=username).first_or_404()
-    note = Note.query.filter_by(id=id).first_or_404()
+    if user != current_user:
+        return redirect(url_for('index'))
+    note = Note.query.filter_by(id=id, author=user).first_or_404()
     print(note)
     form = NoteForm()
     form.header.data = note.header
