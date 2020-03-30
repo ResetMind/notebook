@@ -84,11 +84,10 @@ def note_edit(username, id):
         return redirect(url_for('index'))
     note = Note.query.filter_by(id=id, author=user).first_or_404()
     print(note)
-    form = NoteForm()
-    form.header.data = note.header
-    form.body.data = note.body
+    form = NoteForm(header=note.header, body=note.body)
     if form.validate_on_submit():
-        Note.query.filter_by(id=id).update({'header': form.header.data, 'body': form.body.data})
+        note.header = form.header.data
+        note.body = form.body.data
         db.session.commit()
         flash('Saved')
         all_notes = []
