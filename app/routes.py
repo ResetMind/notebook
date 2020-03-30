@@ -62,8 +62,8 @@ def note(username):
         n = Note(header=form.header.data, body=form.body.data, author=user)
         db.session.add(n)
         db.session.commit()
-        flash('Saved')
         render_template('index.html', title='Home', notes=push_notes(user))
+        flash('Saved')
         return redirect(url_for('index'))
     return render_template('note.html', form=form)
 
@@ -80,8 +80,8 @@ def note_edit(username, id):
         note.header = form.header.data
         note.body = form.body.data
         db.session.commit()
-        flash('Saved')
         render_template('index.html', title='Home', notes=push_notes(user))
+        flash('Saved')
         return redirect(url_for('index'))
     return render_template('note.html', form=form)
 
@@ -94,8 +94,8 @@ def note_delete(username, id):
         return redirect(url_for('index'))
     Note.query.filter_by(id=id, author=user).delete()
     db.session.commit()
-    flash('Deleted')
     render_template('index.html', title='Home', notes=push_notes(user))
+    flash('Deleted')
     return redirect(url_for('index'))
 
 
