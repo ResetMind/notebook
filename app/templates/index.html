@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
+    <h1>{{ current_user.username }}</h1>
     {% for note in notes %}
     <div><p>{{ note.id }} {{ note.header }} <b>{{ note.body }}</b>
         <a href="{{ url_for('note_edit', username=current_user.username, id=note.id) }}">Edit</a>
