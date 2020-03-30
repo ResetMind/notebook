@@ -1,8 +1,8 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, NoteForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Note
 from werkzeug.urls import url_parse
 
 
@@ -10,22 +10,13 @@ from werkzeug.urls import url_parse
 @app.route('/index')
 @login_required
 def index():
-    user = {'username': 'Miguel'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        },
-        {
-            'author': {'username': 'Ипполит'},
-            'body': 'Какая гадость эта ваша заливная рыба!!'
-        }
-    ]
-    return render_template('index.html', title='Home', posts=posts)
+    user = User.query.filter_by(username=current_user.username).first_or_404()
+    all_notes = []
+    notes = user.notes.all()
+    for n in notes:
+        all_notes.append({'id': n.id, 'header': n.header, 'body': n.body})
+    print(all_notes)
+    return render_template('index.html', title='Home', notes=notes)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -65,3 +56,42 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/user/<username>', methods=['GET', 'POST'])
+@login_required
+def note(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    form = NoteForm()
+    if form.validate_on_submit():
+        n = Note(header=form.header.data, body=form.body.data, author=user)
+        db.session.add(n)
+        db.session.commit()
+        flash('Saved')
+        all_notes = []
+        notes = user.notes.all()
+        for n in notes:
+            all_notes.append({'id': n.id, 'header': n.header, 'body': n.body})
+        return render_template('index.html', title='Home', notes=notes)
+    return render_template('note.html', form=form)
+
+
+@app.route('/user/<username>/edit/<id>', methods=['GET', 'POST'])
+@login_required
+def note_edit(username, id):
+    user = User.query.filter_by(username=username).first_or_404()
+    note = Note.query.filter_by(id=id).first_or_404()
+    print(note)
+    form = NoteForm()
+    form.header.data = note.header
+    form.body.data = note.body
+    if form.validate_on_submit():
+        Note.query.filter_by(id=id).update({'header': form.header.data, 'body': form.body.data})
+        db.session.commit()
+        flash('Saved')
+        all_notes = []
+        notes = user.notes.all()
+        for n in notes:
+            all_notes.append({'id': n.id, 'header': n.header, 'body': n.body})
+        return render_template('index.html', title='Home', notes=notes)
+    return render_template('note.html', form=form)
