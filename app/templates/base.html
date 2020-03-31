@@ -1,6 +1,9 @@
 <html>
 <head>
     <title>{{ title }} - Notebook</title>
+    <script src={{ url_for('static', filename='js/jquery-3.4.1.min.js') }}></script>
+    <script src={{ url_for('static', filename='js/jquery.jgrowl.min.js') }}></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.jgrowl.min.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}"/>
     <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans&display=swap" rel="stylesheet">
 </head>
@@ -19,10 +22,15 @@
 </header>
 <hr>
 <div class="content">
+    <script type="text/javascript">
+        $.jGrowl.defaults.position = 'bottom-right';
+    </script>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
-                <p>{{ message }}</p>
+                <script type="text/javascript">
+                    $.jGrowl("{{ message }}", { theme: 'dark_theme'});
+                </script>
             {% endfor %}
         {% endif %}
     {% endwith %}

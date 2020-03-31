@@ -170,3 +170,14 @@ input[type="submit"]:hover {
     cursor: pointer;
     font-weight: bold;
 }
+
+
+/*notification*/
+div.jGrowl div.dark_theme {
+    background: #1f1f1f;
+    border: 1px solid rgba(244, 248, 249, 0.5); /*#f4f8f9*/
+    border-radius: 5px;
+    color: #f4f8f9;
+    font-size: 16px;
+    font-family: 'Alegreya Sans', sans-serif, "Lucida Sans Unicode";
+}
