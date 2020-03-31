@@ -55,20 +55,23 @@ hr {
     height: max-content;
     width: 200px;
     padding: 10px;
-    border: 1px solid;
+    border: 1px solid rgba(244, 248, 249, 0.5);
     border-radius: 10px;
     background: #1f1f1f;
     color: #f4f8f9;
     margin: 5px;
-    backface-visibility: hidden;
-    transition-duration: 300ms;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
 }
 
 .note_block:hover {
-    transition-duration: 300ms;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
     border-radius: 15px;
+    border: 1px solid rgba(244, 248, 249, 1);
     cursor: pointer;
 }
+
 
 .note_header {
     max-height: calc(19px * 3);
@@ -123,6 +126,8 @@ p span {
 }
 
 input[type="submit"] {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
     background: #1f1f1f;
     border: 1px solid rgba(244, 248, 249, 0.5); /*#f4f8f9*/
     border-radius: 5px;
@@ -135,6 +140,8 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
     background: #f4f8f9;
     color: #1f1f1f;
     cursor: pointer;
