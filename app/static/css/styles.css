@@ -42,7 +42,7 @@ hr {
 
 /*notes*/
 .note_blocks {
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 .note_block p {
@@ -60,6 +60,33 @@ hr {
     background: #1f1f1f;
     color: #f4f8f9;
     margin: 5px;
+    backface-visibility: hidden;
+    transition-duration: 300ms;
+}
+
+.note_block:hover {
+    transition-duration: 300ms;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.note_header {
+    max-height: calc(19px * 3);
+    overflow: hidden;
+    line-height: 19px; /*16*1.2*/
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.note_body {
+    padding-top: 4px; /*padding 10 - (19-16) * 2*/
+    max-height: calc(19px * 18);
+    overflow: hidden;
+    line-height: 19px; /*16*1.2*/
+    display: -webkit-box;
+    -webkit-line-clamp: 18;
+    -webkit-box-orient: vertical;
 }
 
 /*edit/make note*/
@@ -79,6 +106,14 @@ textarea {
     resize: none;
 }
 
+/*login, registration*/
+.login_page input[type="text"],
+.register_page input[type="text"],
+input[type="password"] {
+    width: 200px;
+}
+
+/*other*/
 p span {
     color: red;
 }
@@ -87,9 +122,21 @@ p span {
     line-height: 0.1em;
 }
 
-/*login, registration*/
-.login_page input[type="text"],
-.register_page input[type="text"],
-input[type="password"] {
-    width: 200px;
+input[type="submit"] {
+    background: #1f1f1f;
+    border: 1px solid rgba(244, 248, 249, 0.5); /*#f4f8f9*/
+    border-radius: 5px;
+    color: #f4f8f9;
+    font-size: 16px;
+    padding: 5px;
+    outline: none;
+    font-family: 'Alegreya Sans', sans-serif, "Lucida Sans Unicode";
+    width: 100px;
+}
+
+input[type="submit"]:hover {
+    background: #f4f8f9;
+    color: #1f1f1f;
+    cursor: pointer;
+    font-weight: bold;
 }

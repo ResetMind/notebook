@@ -4,7 +4,9 @@
     <h1>{{ current_user.username }}</h1>
     <div class="note_blocks" data-masonry='{ "itemSelector": ".note_block", "columnWidth": ".note_block", "isFitWidth": "true" }'>
         {% for note in notes %}
-            <div class="note_block"><p><b>{{ note.header }}</b></p> <p>{{ note.body }}</p>
+            <div class="note_block">
+                <p class="note_header"><b>{{ note.header }}</b></p>
+                <p class="note_body">{{ note.body }}</p>
                 <p><a href="{{ url_for('note_edit', username=current_user.username, id=note.id) }}">Edit</a>
                 <a href="{{ url_for('note_delete', username=current_user.username, id=note.id) }}">Delete</a></p>
             </div>
