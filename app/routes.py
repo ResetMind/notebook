@@ -104,6 +104,6 @@ def note_delete(username, id):
 def push_notes(user):
     all_notes = []
     notes = user.notes.all()
-    for n in notes:
+    for n in reversed(notes):
         all_notes.append({'id': n.id, 'header': n.header, 'body': n.body})
     return all_notes
