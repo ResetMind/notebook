@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ current_user.username }}</h1>
+    <h1>{{ current_user.username }} - {{notes|length}} notes</h1>
     <div class="note_blocks"
          data-masonry='{ "itemSelector": ".note_block", "columnWidth": ".note_block", "isFitWidth": "true" }'>
         {% for note in notes %}

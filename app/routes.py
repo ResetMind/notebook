@@ -57,6 +57,8 @@ def register():
 @login_required
 def note(username):
     user = User.query.filter_by(username=username).first_or_404()
+    if user != current_user:
+        return redirect(url_for('index'))
     form = NoteForm()
     if form.validate_on_submit():
         n = Note(header=form.header.data, body=form.body.data, author=user)
@@ -65,7 +67,7 @@ def note(username):
         render_template('index.html', title='Home', notes=push_notes(user))
         flash('Saved')
         return redirect(url_for('index'))
-    return render_template('note.html', form=form)
+    return render_template('note.html', title='Make note', form=form)
 
 
 @app.route('/user/<username>/edit/<id>', methods=['GET', 'POST'])
@@ -83,7 +85,7 @@ def note_edit(username, id):
         render_template('index.html', title='Home', notes=push_notes(user))
         flash('Saved')
         return redirect(url_for('index'))
-    return render_template('note.html', form=form)
+    return render_template('note.html', title='Edit note', form=form)
 
 
 @app.route('/user/<username>/delete/<id>', methods=['GET', 'POST'])
