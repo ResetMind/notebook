@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
 from app import app, db
-from app.forms import LoginForm, RegistrationForm, NoteForm
+from app.forms import LoginForm, RegistrationForm, NoteForm, LanguageForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Note
 from werkzeug.urls import url_parse
@@ -60,14 +60,17 @@ def note(username):
     if user != current_user:
         return redirect(url_for('index'))
     form = NoteForm()
-    if form.validate_on_submit():
+    languageForm = LanguageForm()
+    if form.submit.data and form.validate():
         n = Note(header=form.header.data, body=form.body.data, author=user)
         db.session.add(n)
         db.session.commit()
         render_template('index.html', title='Home', notes=push_notes(user))
         flash('Saved')
         return redirect(url_for('index'))
-    return render_template('note.html', title='Make note', form=form)
+    elif languageForm.submit2.data and languageForm.validate():
+        print(request.form['firstLang'] + " " + request.form['secondLang'])
+    return render_template('note.html', title='Make note', form=form, LanguageForm=languageForm)
 
 
 @app.route('/user/<username>/edit/<id>', methods=['GET', 'POST'])
@@ -78,6 +81,7 @@ def note_edit(username, id):
         return redirect(url_for('index'))
     note = Note.query.filter_by(id=id, author=user).first_or_404()
     form = NoteForm(header=note.header, body=note.body)
+    languageForm = LanguageForm()
     if form.validate_on_submit():
         note.header = form.header.data
         note.body = form.body.data
@@ -85,7 +89,7 @@ def note_edit(username, id):
         render_template('index.html', title='Home', notes=push_notes(user))
         flash('Saved')
         return redirect(url_for('index'))
-    return render_template('note.html', title='Edit note', form=form)
+    return render_template('note.html', title='Make note', form=form, LanguageForm=languageForm)
 
 
 @app.route('/user/<username>/delete/<id>', methods=['GET', 'POST'])

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from app.models import User
 
@@ -34,3 +34,19 @@ class NoteForm(FlaskForm):
     header = StringField('Header', validators=[DataRequired()], render_kw={"placeholder": "Type note's header"})
     body = TextAreaField('Body', validators=[DataRequired()], render_kw={"placeholder": "Type note"})
     submit = SubmitField('Save')
+
+
+class LanguageForm(FlaskForm):
+    firstLang = SelectField("Original language: ", choices=[
+        ("ясно", "ясно"),
+        ("пасмурно", "пасмурно"),
+        ("туман", "туман"),
+        ("дождь", "дождь"),
+        ("снег", "снег")])
+    secondLang = SelectField("Translate language: ", choices=[
+        ("ясно", "ясно"),
+        ("пасмурно", "пасмурно"),
+        ("туман", "туман"),
+        ("дождь", "дождь"),
+        ("снег", "снег")])
+    submit2 = SubmitField('Translate')

@@ -18,6 +18,6 @@
                 <span>{{ error }}</span>
             {% endfor %}
         </p>
-        <p>{{ form.submit() }}</p>
+        <p>{{ form.submit() }}{{ LanguageForm.firstLang() }}{{ LanguageForm.secondLang() }}{{ LanguageForm.submit2() }}</p>
     </form>
 {% endblock %}
