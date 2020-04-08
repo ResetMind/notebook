@@ -160,4 +160,3 @@ class LanguageForm(FlaskForm):
         ("vi", "Vietnamese")]
     firstLang = SelectField("Original language: ", choices=choices1)
     secondLang = SelectField("Translate language: ", choices=choices2)
-    submit2 = SubmitField('Translate')

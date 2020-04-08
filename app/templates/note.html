@@ -19,11 +19,13 @@
         {% endfor %}
     </p>
     <p>{{ form.submit() }}
-        {{ LanguageForm.firstLang() }}
+        <span>{{ LanguageForm.firstLang() }}
         {{ LanguageForm.secondLang() }}
-        {{ LanguageForm.submit2() }}</p>
+            <a id="translateLink" href="javascript:translate();">123333</a></span></p>
+    <span id="translateErrors"></span>
     <script>
         function translate() {
+            $('#translateLink').html('<img src="{{ url_for('static', filename='loading.gif') }}">');
             sourceLang = $("#firstLang").val();
             destLang = $("#secondLang").val();
             $.post('/translate', {
@@ -31,12 +33,30 @@
                 source_language: sourceLang,
                 dest_language: destLang
             }).done(function(response) {
-                $('#body').text(response['text'])
+                if(response['text'] == 'Error: the translation service failed.'){
+                    $('#translateErrors').text(response['text'])
+                } else {
+                    $('#body').text(response['text'])
+                }
+                $('#translateLink').html('123333');
             }).fail(function() {
-                $('#body').text("{{ ('Error: Could not contact server.') }}");
+                $('#translateErrors').text("{{ ('Error: Could not contact server.') }}");
+                $('#translateLink').html('123333');
+            });
+            $.post('/translate', {
+                text: $('#header').val(),
+                source_language: sourceLang,
+                dest_language: destLang
+            }).done(function(response) {
+                if(response['text'] == 'Error: the translation service failed.'){
+                    $('#translateErrors').text(response['text'])
+                } else {
+                    $('#header').val(response['text'])
+                }
+            }).fail(function() {
+                $('#translateErrors').text("{{ ('Error: Could not contact server.') }}");
             });
         }
     </script>
-    <a href="javascript:translate();">123333</a>
 </form>
 {% endblock %}
