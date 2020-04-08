@@ -1,5 +1,8 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
+from requests import get, post
+import json
 from app import app, db
+from app.translate import translate
 from app.forms import LoginForm, RegistrationForm, NoteForm, LanguageForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Note
@@ -60,7 +63,7 @@ def note(username):
     if user != current_user:
         return redirect(url_for('index'))
     form = NoteForm()
-    languageForm = LanguageForm()
+    language_form = LanguageForm()
     if form.submit.data and form.validate():
         n = Note(header=form.header.data, body=form.body.data, author=user)
         db.session.add(n)
@@ -68,9 +71,9 @@ def note(username):
         render_template('index.html', title='Home', notes=push_notes(user))
         flash('Saved')
         return redirect(url_for('index'))
-    elif languageForm.submit2.data and languageForm.validate():
-        print(request.form['firstLang'] + " " + request.form['secondLang'])
-    return render_template('note.html', title='Make note', form=form, LanguageForm=languageForm)
+    # elif language_form.submit2.data and language_form.validate():
+    #     translate(form.header.data, form.body.data)
+    return render_template('note.html', title='Make note', form=form, LanguageForm=language_form)
 
 
 @app.route('/user/<username>/edit/<id>', methods=['GET', 'POST'])
@@ -81,15 +84,17 @@ def note_edit(username, id):
         return redirect(url_for('index'))
     note = Note.query.filter_by(id=id, author=user).first_or_404()
     form = NoteForm(header=note.header, body=note.body)
-    languageForm = LanguageForm()
-    if form.validate_on_submit():
+    language_form = LanguageForm()
+    if form.submit.data and form.validate():
         note.header = form.header.data
         note.body = form.body.data
         db.session.commit()
         render_template('index.html', title='Home', notes=push_notes(user))
         flash('Saved')
         return redirect(url_for('index'))
-    return render_template('note.html', title='Make note', form=form, LanguageForm=languageForm)
+    # elif language_form.submit2.data and language_form.validate():
+    #     translate(form.header.data, form.body.data)
+    return render_template('note.html', title='Make note', form=form, LanguageForm=language_form)
 
 
 @app.route('/user/<username>/delete/<id>', methods=['GET', 'POST'])
@@ -103,6 +108,15 @@ def note_delete(username, id):
     render_template('index.html', title='Home', notes=push_notes(user))
     flash('Deleted')
     return redirect(url_for('index'))
+
+
+@app.route('/translate', methods=['POST'])
+@login_required
+def translate_text():
+    print("jsaledfjlkdasj;lkjgasdklfjsdajflkjsadfljasdkjf")
+    return jsonify({'text': translate(request.form['text'],
+                                      request.form['source_language'],
+                                      request.form['dest_language'])})
 
 
 def push_notes(user):
