@@ -19,43 +19,75 @@
         {% endfor %}
     </p>
     <p>{{ form.submit() }}
-        <span>{{ LanguageForm.firstLang() }}
-        {{ LanguageForm.secondLang() }}
-            <a id="translateLink" href="javascript:translate();">123333</a></span></p>
+        <span id="translateTools"><span>Translate from:</span>{{ LanguageForm.firstLang() }}<span>to:</span>
+        {{ LanguageForm.secondLang() }}</span></p>
+            <span id="translateTools2"><a id="translateLink" href="javascript:translate();">Translate</a>
+            <a id="resetLink" href="javascript:reset();">Reset</a></span>
     <span id="translateErrors"></span>
+    <!-- for translation -->
     <script>
         function translate() {
-            $('#translateLink').html('<img src="{{ url_for('static', filename='loading.gif') }}">');
+            $('#body').addClass('process');
+            $('#header').addClass('process');
+            $('#body' ).prop("disabled", true);
+            $('#header').prop("disabled", true);
+            $('#translateErrors').text('');
             sourceLang = $("#firstLang").val();
             destLang = $("#secondLang").val();
             $.post('/translate', {
-                text: $('#body').text(),
+                text: $('#body').val(),
                 source_language: sourceLang,
                 dest_language: destLang
             }).done(function(response) {
-                if(response['text'] == 'Error: the translation service failed.'){
-                    $('#translateErrors').text(response['text'])
-                } else {
-                    $('#body').text(response['text'])
-                }
-                $('#translateLink').html('123333');
+               ifDone(response, $('#body'));
             }).fail(function() {
-                $('#translateErrors').text("{{ ('Error: Could not contact server.') }}");
-                $('#translateLink').html('123333');
+                ifFail($('#body'));
             });
             $.post('/translate', {
                 text: $('#header').val(),
                 source_language: sourceLang,
                 dest_language: destLang
             }).done(function(response) {
-                if(response['text'] == 'Error: the translation service failed.'){
-                    $('#translateErrors').text(response['text'])
-                } else {
-                    $('#header').val(response['text'])
-                }
+                ifDone(response, $('#header'));
             }).fail(function() {
-                $('#translateErrors').text("{{ ('Error: Could not contact server.') }}");
+                ifFail($('#header'));
             });
+        }
+
+        function ifDone(response, element){
+            if(response['text'] == 'Translation error'){
+                $('#translateErrors').text(response['text'])
+            } else {
+                $(element).val(response['text'])
+                const body = document.getElementById('body');
+                body.style.height = 'auto';
+                body.style.height = (body.scrollHeight) + 'px';
+            }
+            $(element).removeClass('process');
+            $(element).prop("disabled", false);
+        }
+
+        function ifFail(element){
+            $('#translateErrors').text("{{ ('Error: Could not contact server.') }}");
+            $(element).removeClass('process');
+            $(element).prop("disabled", false);
+        }
+    </script>
+    <!-- for reset header and body after translation -->
+    <script>
+        let headerDefault = '';
+        let bodyDefault = '';
+        window.onload = function() {
+            headerDefault = $('#header').val();
+            bodyDefault = $('#body').val();
+        };
+
+        function reset() {
+            $('#header').val(headerDefault);
+            $('#body').val(bodyDefault);
+            const body = document.getElementById('body');
+            body.style.height = 'auto';
+            body.style.height = (body.scrollHeight) + 'px';
         }
     </script>
 </form>

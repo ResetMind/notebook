@@ -19,20 +19,7 @@ def translate(text, source_language, dest_language):
             "lang": source_language + "-" + dest_language
         }
     response = get("https://translate.yandex.net/api/v1.5/tr.json/translate", params=params)
-    print(response.status_code)
-    if response.status_code == 401:
-        return 'Invalid API Key'
-    elif response.status_code == 402:
-        return 'API key is locked'
-    elif response.status_code == 404:
-        return 'The daily limit on the amount of translated text has been exceeded'
-    elif response.status_code == 413:
-        return 'Maximum text size exceeded'
-    elif response.status_code == 422:
-        return 'Text cannot be translated'
-    elif response.status_code == 501:
-        return 'The specified translation direction is not supported'
-    elif response.status_code != 200:
+    if response.status_code != 200:
         return 'Translation error'
     data = json.loads(response.content.decode('utf-8-sig'))
     return data['text'][0]

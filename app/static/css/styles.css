@@ -126,10 +126,66 @@ input[type="text"], input[type="password"], textarea {
     outline: none;
     font-family: 'Alegreya Sans', sans-serif, "Lucida Sans Unicode";
     width: 100%;
+    opacity: 100%;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
 }
 
 textarea {
     resize: none;
+}
+
+#body.process, #header.process {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    opacity: 50%;
+}
+
+#translateTools, #translateTools2 {
+    float: right;
+}
+
+#translateTools span {
+    color: #f4f8f9;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+select {
+    background: #1f1f1f;
+    border: 1px solid rgba(244, 248, 249, 0.5); /*#f4f8f9*/
+    border-radius: 5px;
+    color: #f4f8f9;
+    font-size: 16px;
+    padding: 5px;
+    outline: none;
+    font-family: 'Alegreya Sans', sans-serif, "Lucida Sans Unicode";
+    cursor: pointer;
+}
+
+#translateTools2 a {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    padding: 4px;
+    display: inline-block;
+    text-decoration: none;
+    background: #1f1f1f;
+    border: 1px solid rgba(244, 248, 249, 0.5); /*#f4f8f9*/
+    border-radius: 5px;
+    color: #f4f8f9;
+    width: 100px;
+    margin-left: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+#translateTools2 a:hover {
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    background: #f4f8f9;
+    color: #1f1f1f;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 /*login, registration*/
