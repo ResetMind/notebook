@@ -55,7 +55,13 @@
         }
 
         function ifDone(response, element){
-            if(response['text'] == 'Translation error'){
+            if(response['text'] == 'Invalid API Key' ||
+                response['text'] == 'API key is locked' ||
+                response['text'] == 'The daily limit on the amount of translated text has been exceeded' ||
+                response['text'] == 'Maximum text size exceeded' ||
+                response['text'] == 'Text cannot be translated' ||
+                response['text'] == 'The specified translation direction is not supported' ||
+                response['text'] == 'Translation error'){
                 $('#translateErrors').text(response['text'])
             } else {
                 $(element).val(response['text'])
